@@ -1,13 +1,13 @@
-%è®¡ç®—å¹¶ç»˜åˆ¶å®é™…å‡¸è½®
-%æ‰€æœ‰å•ä½å‡ä¸ºmm
+%¼ÆËã²¢»æÖÆÊµ¼ÊÍ¹ÂÖ | Calculate and plot the actual cam
+%ËùÓĞµ¥Î»¾ùÎªmm | All units are in millimeters
 %%
 clc;
 clear;
 %%
-data_name='shanghai_del4';%éœ€è¦å¯ç”¨çš„æ•°æ®åç§°ï¼Œä¾¿äºå¿«é€ŸåŸºäºä»¥å¾€æ•°æ®è®¡ç®—å‡¸è½® The names of the data that need to be enabled, to facilitate rapid calculation of cams based on previous data
-save_name='cam';%ç”Ÿæˆå‡¸è½®ç‚¹é›†çš„æ–‡ä»¶åï¼Œæ–‡ä»¶ä¼šä¿å­˜åœ¨ä¸Šæ–¹è·¯å¾„(å½“å‰æ–‡ä»¶å¤¹)å†… Generate the filename for the cam point set, and the file will be saved in the above path (current folder)
-format='.txt';%ç”Ÿæˆçš„å‡¸è½®ç‚¹é›†æ–‡ä»¶çš„åç¼€ï¼ŒCreoä¸º'.ibl'ï¼ŒSolidWorksä¸º'.txt'ï¼ŒCADä¸º'.scr'The suffix of the generated cam point set file is '.ibl' for Creo, '.txt' for SolidWorks, and '.scr' for CAD
-num_route=20;%ç”Ÿæˆç‚¹é›†æ—¶æ’å€¼ç‚¹æ•°é‡
+data_name='Trajectory_A';%ĞèÒªÆôÓÃµÄÊı¾İÃû³Æ£¬±ãÓÚ¿ìËÙ»ùÓÚÒÔÍùÊı¾İ¼ÆËãÍ¹ÂÖ | Name of dataset, used to calculate cam based on previous data
+save_name='TrajectoryA';%Éú³ÉÍ¹ÂÖµã¼¯µÄÎÄ¼şÃû£¬ÎÄ¼ş»á±£´æÔÚÉÏ·½Â·¾¶(µ±Ç°ÎÄ¼ş¼Ğ)ÄÚ | Filename of generated cam point set, saved in current working directory
+format='.txt';%Éú³ÉµÄÍ¹ÂÖµã¼¯ÎÄ¼şµÄºó×º£¬CreoÎª'.ibl'£¬SolidWorksÎª'.txt'£¬CADÎª'.scr' | File extension for cam point set: '.ibl' for Creo, '.txt' for SolidWorks, '.scr' for CAD
+num_route=20;%Éú³Éµã¼¯Ê±²åÖµµãÊıÁ¿ | Number of interpolation points for point set generation
 
 %%
 load([data_name,'_max.mat']);
@@ -33,7 +33,7 @@ elseif strcmp(format,'.scr')
         fprintf(fp,'%f,%f\n',cam_virtual(i,:));
     end
 else
-    error('formatèµ‹å€¼ä¸æ­£ç¡®');
+    error('format¸³Öµ²»ÕıÈ·');
 end
 fclose(fp);
 %%
@@ -61,9 +61,9 @@ hold on;
 plot(displacement,fluctation,'b');
 plot([displacement(1),displacement(1)],[fluctation(1),0],'r-o');
 plot_t_site=plot([displacement(1),displacement(1)],[fluctation(1),0],'r-o');
-title('è½¦è¾†è½¬è§’å¤§å°');
-xlabel('ç§»åŠ¨è·ç¦»/mm');
-ylabel('è½¬å¼¯è§’åº¦(å·¦è½¬ä¸ºæ­£)/mm');
+title('³µÁ¾×ª½Ç´óĞ¡');
+xlabel('ÒÆ¶¯¾àÀë/mm');
+ylabel('×ªÍä½Ç¶È(×ó×ªÎªÕı)/mm');
 subplot(3,5,[9,10,14,15]);
 hold on;
 rectangle('Position',[-d*0.7,-d*0.7,d*1.4,d*1.4],'Curvature',[1,1],'EdgeColor','k');
@@ -75,7 +75,7 @@ plot_roller=rectangle('Position',[cam_theoretic(i,1)-r,cam_theoretic(i,2)-r,2*r,
 plot_roller_line=plot([0,cam_virtual(1,1),cam_theoretic(1,1)],[0,cam_virtual(1,2),cam_theoretic(1,2)],'r-');
 axis equal;
 axis([-0.7*d,0.7*d,-0.7*d,0.7*d]);
-title('å‡¸è½®æ›²çº¿');
+title('Í¹ÂÖÇúÏß');
 xlabel('x/mm');
 ylabel('y/mm');
 pause(3);
@@ -102,16 +102,16 @@ for j=1:300
     hold on;
     delete(plot_t_site);
     plot_t_site=plot([displacement(i),displacement(i)],[fluctation(i),0],'r-o');
-    title('è½¦è¾†è½¬è§’å¤§å°');
-    xlabel('ç§»åŠ¨è·ç¦»/mm');
-    ylabel('è½¬å¼¯è§’åº¦(å·¦è½¬ä¸ºæ­£)/mm');
+    title('³µÁ¾×ª½Ç´óĞ¡');
+    xlabel('ÒÆ¶¯¾àÀë/mm');
+    ylabel('×ªÍä½Ç¶È(×ó×ªÎªÕı)/mm');
     subplot(3,5,[9,10,14,15]);
     hold on;
     delete(plot_roller);
     plot_roller=rectangle('Position',[cam_theoretic(i,1)-r,cam_theoretic(i,2)-r,2*r,2*r],'Curvature',[1,1],'EdgeColor','r');
     delete(plot_roller_line);
     plot_roller_line=plot([0,cam_virtual(i,1),cam_theoretic(i,1)],[0,cam_virtual(i,2),cam_theoretic(i,2)],'r-');
-    title('å‡¸è½®æ›²çº¿');
+    title('Í¹ÂÖÇúÏß');
     xlabel('x/mm');
     ylabel('y/mm');
     if abs(j/6-round(j/6))<0.01

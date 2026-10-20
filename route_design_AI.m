@@ -1,52 +1,49 @@
-%è¯¥ä»£ç æŒ‰ç…§å¹¶è¡Œè¿ç®—ç¼–ç è§„èŒƒç¼–ç ï¼Œèƒ½å¤Ÿè¿›è¡Œå¤šæ ¸å¤šçº¿ç¨‹å¹¶è¡Œè¿ç®—
+%¸Ã´úÂë°´ÕÕ²¢ĞĞÔËËã±àÂë¹æ·¶±àÂë£¬ÄÜ¹»½øĞĞ¶àºË¶àÏß³Ì²¢ĞĞÔËËã
 %%
 clc;
 clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%åŸºç¡€å‚æ•°
-data_name='shanghai_test1';%éœ€è¦å¯ç”¨çš„æ•°æ®åç§°ï¼Œä¾¿äºå¿«é€ŸåŸºäºä»¥å¾€æ•°æ®ç»§ç»­è®­ç»ƒæ¨¡å‹ï¼Œæ²¡æœ‰æ•°æ®åˆ™è‡ªåŠ¨æ–°å»º
-configuration=0;%é…ç½®åŠ è½½0æˆ–1ï¼Œ0ä¸ºæœ€ç®€é…ç½®ï¼Œé€šè¿‡åŠ è½½çš„æ•°æ®é…åˆä»£ç å†…è®¾ç½®çš„æ•°æ®è®¡ç®—ï¼Œ1ä¸ºæ»¡é…ç½®ï¼Œæ‰€æœ‰æ•°æ®é€šè¿‡åŠ è½½å¾—æ¥
-%è·¯çº¿é€”ç»ç‚¹é›†ï¼ŒåŒ…å«å§‹æœ«ç‚¹åæ ‡
+%»ù´¡²ÎÊı Basic Parameters
+data_name='Trajectory_A';%ĞèÒªÆôÓÃµÄÊı¾İÃû³Æ£¬±ãÓÚ¿ìËÙ»ùÓÚÒÔÍùÊı¾İ¼ÌĞøÑµÁ·Ä£ĞÍ£¬Ã»ÓĞÊı¾İÔò×Ô¶¯ĞÂ½¨ | Name of dataset for continuing training with historical data; new dataset will be created if not exists
+configuration=0;%ÅäÖÃ¼ÓÔØ0»ò1£¬0Îª×î¼òÅäÖÃ£¬Í¨¹ı¼ÓÔØµÄÊı¾İÅäºÏ´úÂëÄÚÉèÖÃµÄÊı¾İ¼ÆËã£¬1ÎªÂúÅäÖÃ£¬ËùÓĞÊı¾İÍ¨¹ı¼ÓÔØµÃÀ´ | Configuration mode: 0 = minimal config(calculate by internal parameters & loaded data), 1 = full config(all parameters loaded from file)
+%Â·ÏßÍ¾¾­µã¼¯£¬°üº¬Ê¼Ä©µã×ø±ê Waypoint set of route, including start and end coordinates
 P=[5588,713;4463,375;2925,825;1800,2025;450,2213;375,2738;900,3988;1725,5250;3188,5625;];
-%ä¸Šæµ·åˆå†³èµ›ç‚¹é›†åæ ‡ï¼šP=[7500,400;5400,200;3500,300;2500,1900;800,1200;600,3200;800,4100;1100,5200;2000,7000;4200,7600;];
-
-Venue_size=[0,6000,0,6000];%åœºåœ°å¤§å°[x_min,x_max,y_min,y_max]
-driving_wheel=[94,-130];%ä¸»åŠ¨è½®ç›¸å¯¹äºå‰è½®åæ ‡
-driven_wheel=[-54,-130];%ä»åŠ¨è½®ç›¸å¯¹äºå‰è½®åæ ‡
-Z_sensor=[25,-53];%ä¼ æ„Ÿå™¨ç›¸å¯¹äºå‰è½®åæ ‡ä½ç½®
-V_0=[-3,-1];%åˆå§‹å‘è½¦å‘é‡
-
-d_driving=180;%ä¸»åŠ¨è½®ç›´å¾„
-i_total=36;%å®šä¼ åŠ¨æ¯”å¤§å°
-c=-33;%å‰è½®ä¸­å¹³é¢ä¸è½¬å‘æ¨åŠ¨ç»“æ„è¿åŠ¨å¹³é¢é—´è·
-thickness=3;%å‡¸è½®åšåº¦
-d=130;%å‡¸è½®åŸºå‡†ç›´å¾„ï¼šå‰è½®ç›´è¡Œæ—¶ï¼Œå‡¸è½®è½´å¿ƒåˆ°æ¥è§¦æ›²é¢è½´å¿ƒè·ç¦»X2
-r=2;%ä¸å‡¸è½®æ¥è§¦çš„æ›²é¢åŠå¾„
-
-%é«˜é˜¶å‚æ•°
-traing_times=399;%AIçš„è®­ç»ƒæ¬¡æ•°
-num=20;%è®­ç»ƒAIæ—¶æ’å€¼ç‚¹æ•°é‡
+%Trajectory_A£ºP=[5588,713;4463,375;2925,825;1800,2025;450,2213;375,2738;900,3988;1725,5250;3188,5625;];
+Venue_size=[0,6000,0,6000];%³¡µØ´óĞ¡[x_min,x_max,y_min,y_max] | Field boundary [x_min,x_max,y_min,y_max]
+driving_wheel=[94,-130];%Ö÷¶¯ÂÖÏà¶ÔÓÚÇ°ÂÖ×ø±ê | Coordinates of driving wheel relative to front wheel
+driven_wheel=[-54,-130];%´Ó¶¯ÂÖÏà¶ÔÓÚÇ°ÂÖ×ø±ê | Coordinates of driven wheel relative to front wheel
+Z_sensor=[25,-53];%´«¸ĞÆ÷Ïà¶ÔÓÚÇ°ÂÖ×ø±êÎ»ÖÃ | Coordinates of sensor relative to front wheel
+V_0=[-3,-1];%³õÊ¼·¢³µÏòÁ¿ | Initial velocity vector at start
+d_driving=180;%Ö÷¶¯ÂÖÖ±¾¶ | Diameter of driving wheel
+i_total=36;%¶¨´«¶¯±È´óĞ¡ | Total fixed transmission ratio
+c=-33;%Ç°ÂÖÖĞÆ½ÃæÓë×ªÏòÍÆ¶¯½á¹¹ÔË¶¯Æ½Ãæ¼ä¾à | Distance between front wheel mid-plane and motion plane of steering push mechanism
+thickness=3;%Í¹ÂÖºñ¶È | Cam thickness
+d=130;%Í¹ÂÖ»ù×¼Ö±¾¶£ºÇ°ÂÖÖ±ĞĞÊ±£¬Í¹ÂÖÖáĞÄµ½½Ó´¥ÇúÃæÖáĞÄ¾àÀëX2 | Cam reference diameter: distance from cam axis to contact surface axis when front wheel runs straight
+r=2;%ÓëÍ¹ÂÖ½Ó´¥µÄÇúÃæ°ë¾¶ | Radius of curved surface contacting with cam
+%¸ß½×²ÎÊı Advanced Parameters
+traing_times=399;%ÑµÁ·´ÎÊı | Number of training iterations
+num=20;%ÑµÁ·Ê±²åÖµµãÊıÁ¿ | Number of interpolation points during training
 control_num=5;
-route_index=7;%è·¯çº¿è´å¡å°”å…‰æ»‘é˜¶æ•°
-gradient_power0=40;%åˆå§‹åŒ–æ¢¯åº¦åŠ›ï¼Œåé¢çš„å®é™…ä½¿ç”¨æ¢¯åº¦åŠ›ä¸å¾—å¤§äºè¯¥å€¼
+route_index=7;%Â·Ïß±´Èû¶û¹â»¬½×Êı | Smooth order of B¨¦zier route
+gradient_power0=40;%³õÊ¼»¯Ìİ¶ÈÁ¦£¬ºóÃæµÄÊµ¼ÊÊ¹ÓÃÌİ¶ÈÁ¦²»µÃ´óÓÚ¸ÃÖµ | Initial gradient force; actual gradient force shall not exceed this value
 power_P0=0.6;%
-learning_efficiency=0.3;%AIçš„å­¦ä¹ æ•ˆç‡ï¼Œå­¦ä¹ æ•ˆç‡è¶Šå¤§ï¼Œå­¦ä¹ é€Ÿåº¦è¶Šå¿«ï¼Œè¶Šå®¹æ˜“è·³å‡ºå±€éƒ¨æœ€ä¼˜è§£ï¼Œä½†ä¹Ÿå®¹æ˜“é”™è¿‡æœ€ä¼˜è§£
-perturbation_frequency=50;%ç¨³æ€æ‰°åŠ¨é¢‘ç‡ï¼Œæ­£æ•´æ•°èŒƒå›´å–å€¼ï¼Œé»˜è®¤å€¼100ï¼Œå³é—´éš”è®¾ç½®çš„è®­ç»ƒæ¬¡æ•°åï¼Œè¯„åˆ†æœºåˆ¶å°†å°å¹…è°ƒæ•´ï¼Œæ‰“ç ´ç¨³æ€ã€æ‰°åŠ¨è¯„åˆ†æ¨¡å‹ï¼Œå¢å¼ºAIè·³å‡ºå±€éƒ¨æœ€ä¼˜è§£çš„èƒ½åŠ›
-perturbation_power=2;%ç¨³æ€æ‰°åŠ¨åŠ›åº¦ï¼Œå®æ•°èŒƒå›´å–å€¼ï¼Œé»˜è®¤å€¼1
-Scored_index=5+[0;0;3;0;0;0;0;0;0;0;0;0;];%åˆ¤åˆ†æŒ‡æ•°ï¼Œå¯ä»¥é€šè¿‡è°ƒèŠ‚å¤§å°æ¥è°ƒèŠ‚ä¸Šé¢5ç§æœŸæœ›å€¼çš„æƒé‡ï¼Œå‰åé¡ºåºä¸ºä¸Šé¢5ç§æœŸæœ›å€¼çš„é¡ºåº,å€¼å‡ä¸ºè‡ªç„¶æ•°
+learning_efficiency=0.3;%Ñ§Ï°Ğ§ÂÊ£¬Ñ§Ï°Ğ§ÂÊÔ½´ó£¬Ñ§Ï°ËÙ¶ÈÔ½¿ì£¬Ô½ÈİÒ×Ìø³ö¾Ö²¿×îÓÅ½â£¬µ«Ò²ÈİÒ×´í¹ı×îÓÅ½â | learning rate. Larger value speeds up training and helps escape local optima, but may miss global optimum
+perturbation_frequency=50;%ÎÈÌ¬ÈÅ¶¯ÆµÂÊ£¬ÕıÕûÊı·¶Î§È¡Öµ£¬Ä¬ÈÏÖµ100£¬¼´¼ä¸ôÉèÖÃµÄÑµÁ·´ÎÊıºó£¬ÆÀ·Ö»úÖÆ½«Ğ¡·ùµ÷Õû£¬´òÆÆÎÈÌ¬¡¢ÈÅ¶¯ÆÀ·ÖÄ£ĞÍ£¬ÔöÇ¿Ìø³ö¾Ö²¿×îÓÅ½âµÄÄÜÁ¦ | Steady-state perturbation frequency (positive integer, default=100). Adjust scoring model periodically to break steady state and escape local optima
+perturbation_power=2;%ÎÈÌ¬ÈÅ¶¯Á¦¶È£¬ÊµÊı·¶Î§È¡Öµ£¬Ä¬ÈÏÖµ1 | Steady-state perturbation magnitude (real number, default=1)
+Scored_index=5+[0;0;3;0;0;0;0;0;0;0;0;0;];%ÅĞ·ÖÖ¸Êı£¬¿ÉÒÔÍ¨¹ıµ÷½Ú´óĞ¡À´µ÷½ÚÉÏÃæ5ÖÖÆÚÍûÖµµÄÈ¨ÖØ£¬Ç°ºóË³ĞòÎªÉÏÃæ5ÖÖÆÚÍûÖµµÄË³Ğò,Öµ¾ùÎª×ÔÈ»Êı | Scoring weight vector to tune weights of objective terms; values are natural numbers
+E_length=6000;%Ç°ÂÖÂ·Ïß³¤¶ÈµÄÆÚÍûÖµ | Expected value of front wheel path length
+E_length_cp=4000;%¿ØÖÆµã³¤¶ÈÆ½·½ºÍÆÚÍûÖµ | Expected value for sum of squared lengths of control points
+E_distance_sum=10;%´«¸ĞÆ÷Â·ÏßÆ«Àëµã¼¯¾àÀëÆ½·½ºÍµÄÆÚÍûÖµ | Expected value for sum of squared deviations between sensor path and waypoints
+E_t_cp_sum=10;%¿ØÖÆµã½Ç¶È¸Ä±ä´óĞ¡Æ½·½ºÍµÄÆÚÍûÖµ | Expected value for sum of squared angle changes of control points
+E_dt_cp_sum=5;%¿ØÖÆµã½Ç¶È¸Ä±äËÙ¶ÈÆ½·½ºÍµÄÆÚÍûÖµ | Expected value for sum of squared angular velocity of control points
+E_ddt_cp_sum=5;%¿ØÖÆµã½Ç¶È¸Ä±ä¼ÓËÙ¶ÈÆ½·½ºÍµÄÆÚÍûÖµ | Expected value for sum of squared angular acceleration of control points
+E_t_sum=300;%Ç°ÂÖ½Ç¶È¸Ä±ä´óĞ¡Æ½·½ºÍµÄÆÚÍûÖµ | Expected value for sum of squared angle changes of front wheel
+E_dt_sum=2;%Ç°ÂÖ½ÇËÙ¶ÈÆ½·½ºÍµÄÆÚÍûÖµ | Expected value for sum of squared angular velocity of front wheel
+E_ddt_sum=0.05;%Ç°ÂÖ½Ç¼ÓËÙ¶ÈÆ½·½ºÍµÄÆÚÍûÖµ | Expected value for sum of squared angular acceleration of front wheel
+E_rho_max=3;%ÀíÂÛÍ¹ÂÖÇúÂÊ×î´óÖµµÄÆÚÍûÖµ | Expected maximum theoretical cam curvature
+E_pressure_angle_max=0.3;%Í¹ÂÖÑ¹Á¦½ÇµÄÆÚÍûÖµ | Expected maximum cam pressure angle
+E_t_virtual_max=3;%Í¹ÂÖÇúÏß½Ç¶È±ä»¯µÄÆÚÍûÖµ | Expected maximum angular variation of cam profile
 
-E_length=6000;%å‰è½®è·¯çº¿é•¿åº¦çš„æœŸæœ›å€¼                                    è·¯çº¿é•¿åº¦
-E_length_cp=4000;%æ§åˆ¶ç‚¹é•¿åº¦å¹³æ–¹å’ŒæœŸæœ›å€¼                               æ§åˆ¶ç‚¹é•¿åº¦
-E_distance_sum=10;%ä¼ æ„Ÿå™¨è·¯çº¿åç¦»ç‚¹é›†è·ç¦»å¹³æ–¹å’Œçš„æœŸæœ›å€¼                åç¦»è·ç¦»
-E_t_cp_sum=10;%æ§åˆ¶ç‚¹è§’åº¦æ”¹å˜å¤§å°å¹³æ–¹å’Œçš„æœŸæœ›å€¼                        æ§åˆ¶ç‚¹è½¬è§’å’Œ
-E_dt_cp_sum=5;%æ§åˆ¶ç‚¹è§’åº¦æ”¹å˜å¤§å°å¹³æ–¹å’Œçš„æœŸæœ›å€¼                        æ§åˆ¶ç‚¹è½¬è§’é€Ÿåº¦å’Œ
-E_ddt_cp_sum=5;%æ§åˆ¶ç‚¹è§’åº¦æ”¹å˜å¤§å°å¹³æ–¹å’Œçš„æœŸæœ›å€¼                       æ§åˆ¶ç‚¹è½¬è§’åŠ é€Ÿåº¦å’Œ
-E_t_sum=300;%å‰è½®è§’åº¦æ”¹å˜å¤§å°å¹³æ–¹å’Œçš„æœŸæœ›å€¼                            å‰è½®è½¬è§’å’Œ
-E_dt_sum=2;%å‰è½®è§’åº¦æ”¹å˜å¤§å°å¹³æ–¹å’Œçš„æœŸæœ›å€¼                             å‰è½®è½¬è§’é€Ÿåº¦å’Œ
-E_ddt_sum=0.05;%å‰è½®è§’åº¦æ”¹å˜å¤§å°å¹³æ–¹å’Œçš„æœŸæœ›å€¼                         å‰è½®è½¬è§’åŠ é€Ÿåº¦å’Œ
-E_rho_max=3;%ç†è®ºå‡¸è½®æ›²ç‡æœ€å¤§å€¼çš„æœŸæœ›å€¼                              å‡¸è½®æ›²ç‡æœ€å¤§
-E_pressure_angle_max=0.3;%å‡¸è½®å‹åŠ›è§’çš„æœŸæœ›å€¼                           å‹åŠ›è§’
-E_t_virtual_max=3;%å‡¸è½®æ›²çº¿è§’åº¦å˜åŒ–çš„æœŸæœ›å€¼                         å‡¸è½®æ›²çº¿è§’åº¦
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 if exist([data_name,'.mat'],'file')
@@ -93,7 +90,7 @@ V_0=V_0/norm(V_0);
 index=round((num/route_index)^0.5);
 perturbation_num=0;
 power_P=power_P0;
-names={'è·¯çº¿é•¿åº¦ï¼š';'æ§åˆ¶ç‚¹é•¿åº¦ï¼š';'åç¦»è·ç¦»ï¼š';'æ§åˆ¶ç‚¹è½¬è§’å’Œï¼š';'æ§åˆ¶ç‚¹è½¬è§’é€Ÿåº¦å’Œï¼š';'æ§åˆ¶ç‚¹è½¬è§’åŠ é€Ÿåº¦å’Œï¼š';'å‰è½®è½¬è§’å’Œï¼š';'å‰è½®è½¬è§’é€Ÿåº¦å’Œï¼š';'å‰è½®è½¬è§’åŠ é€Ÿåº¦å’Œï¼š';'å‡¸è½®æ›²ç‡æœ€å¤§ï¼š';'å‹åŠ›è§’ï¼š';'å‡¸è½®æ›²çº¿è§’åº¦ï¼š';};
+names={'Â·Ïß³¤¶È£º';'¿ØÖÆµã³¤¶È£º';'Æ«Àë¾àÀë£º';'¿ØÖÆµã×ª½ÇºÍ£º';'¿ØÖÆµã×ª½ÇËÙ¶ÈºÍ£º';'¿ØÖÆµã×ª½Ç¼ÓËÙ¶ÈºÍ£º';'Ç°ÂÖ×ª½ÇºÍ£º';'Ç°ÂÖ×ª½ÇËÙ¶ÈºÍ£º';'Ç°ÂÖ×ª½Ç¼ÓËÙ¶ÈºÍ£º';'Í¹ÂÖÇúÂÊ×î´ó£º';'Ñ¹Á¦½Ç£º';'Í¹ÂÖÇúÏß½Ç¶È£º';};
 E_eigenvalues0=[E_length;E_length_cp;E_distance_sum;E_t_cp_sum;E_dt_cp_sum;E_ddt_cp_sum;E_t_sum;E_dt_sum;E_ddt_sum;E_rho_max;E_pressure_angle_max;E_t_virtual_max;];
 E_eigenvalues=E_eigenvalues0;
 figure(1);
@@ -104,13 +101,13 @@ axis equal;
 xlabel('x/mm');
 ylabel('y/mm');
 subplot(3,5,[4,5]);
-title('è·¯çº¿æ›²ç‡åŠå¾„');  
-xlabel('ç§»åŠ¨è·ç¦»/mm');
-ylabel('æ›²ç‡åŠå¾„/mm');
+title('Â·ÏßÇúÂÊ°ë¾¶');  
+xlabel('ÒÆ¶¯¾àÀë/mm');
+ylabel('ÇúÂÊ°ë¾¶/mm');
 subplot(3,5,[9,10,14,15]);
 axis([-0.7*d,0.7*d,-0.7*d,0.7*d]);
 axis equal;
-title('å‡¸è½®æ›²çº¿');
+title('Í¹ÂÖÇúÏß');
 xlabel('x/mm');
 ylabel('y/mm');
 pause(3);
@@ -181,9 +178,9 @@ for time=1:traing_times
     [cam_theoretic,cam_virtual,~,~,rho_max,pressure_angle_max,t_virtual_max]=cam_cal_elliptic(t_front_wheel,c,thickness,ps_driving,d_driving,i_total,d,r);
     eigenvalues=[length;length_cp;P_distance_sum;t_cp_sum;dt_cp_sum;ddt_cp_sum;t_sum;dt_sum;ddt_sum;rho_max;pressure_angle_max;t_virtual_max];
     [~,score]=score_cal(eigenvalues,E_eigenvalues,scored_index);
-    disp('è¿­ä»£æ¬¡æ•°ï¼š'+string(traing_times)+'  '+string(time));
-    disp('æ¢¯åº¦åŠ›ï¼š'+string(gradient_power0)+'  '+string(gradient_power));
-    disp('ç»¼åˆåˆ†æ•°ï¼š'+string(score_times(1))+'  '+string(score_times(time)));
+    disp('µü´ú´ÎÊı£º'+string(traing_times)+'  '+string(time));
+    disp('Ìİ¶ÈÁ¦£º'+string(gradient_power0)+'  '+string(gradient_power));
+    disp('×ÛºÏ·ÖÊı£º'+string(score_times(1))+'  '+string(score_times(time)));
     for i=1:size(E_eigenvalues,1)
         disp(names(i)+string(E_eigenvalues(i))+'  '+string(eigenvalues(i))+'  '+string(score(i)));
     end
@@ -203,9 +200,9 @@ for time=1:traing_times
     ylabel('y/mm');
     subplot(3,5,[4,5]);
     plot(1:ps_num,t_front_wheel,'b');
-    title('å‰è½®è½¬è§’');  
-    xlabel('ç§»åŠ¨è·ç¦»/mm');
-    ylabel('è½¬è§’å¤§å°/mm');
+    title('Ç°ÂÖ×ª½Ç');  
+    xlabel('ÒÆ¶¯¾àÀë/mm');
+    ylabel('×ª½Ç´óĞ¡/mm');
     subplot(3,5,[9,10,14,15]);
     hold off;
     plot_cam=plot(cam_theoretic(:,1),cam_theoretic(:,2),'r-',cam_virtual(:,1),cam_virtual(:,2),'b-');
@@ -213,7 +210,7 @@ for time=1:traing_times
     rectangle('Position',[-d*0.7,-d*0.7,d*1.4,d*1.4],'Curvature',[1,1],'EdgeColor','k');
     rectangle('Position',[-d*0.5,-d*0.5,d,d],'Curvature',[1,1],'EdgeColor','k');
     axis equal;
-    title('å‡¸è½®æ›²çº¿');
+    title('Í¹ÂÖÇúÏß');
     xlabel('x/mm');
     ylabel('y/mm');
     drawnow;
